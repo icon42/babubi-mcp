@@ -32,10 +32,14 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # Git tags look like v1.0.0+bbmcp.1.1.0: the part after "+" names the
+          # babybuddy-mcp release this builds on. Docker tags cannot hold a
+          # "+", so they keep the babubi-mcp version only.
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
-            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
             type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
             type=sha,prefix=sha-
 
       - name: Build and push
