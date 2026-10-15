@@ -1,5 +1,7 @@
 # babubi-mcp
 
+[![Support: none](https://img.shields.io/badge/support-none-lightgrey.svg)](SUPPORT.md)
+
 An [MCP](https://modelcontextprotocol.io/) server for the [Babubi](https://github.com/icon42/babubi/) baby tracking application. Connect AI assistants to your babubi instance to log and query feedings, sleep, diaper changes, and more.
 
 Built with [FastMCP](https://github.com/prefecthq/fastmcp) and designed to run alongside babubi in Docker.
@@ -135,3 +137,7 @@ mise run typecheck
 - "Start a sleep timer for Alice"
 - "Alice just woke up, end her sleep timer and log it"
 - "What was Alice's weight at her last checkup?"
+
+## Support
+
+babubi-mcp is offered as is, without support; see [SUPPORT.md](SUPPORT.md).
