@@ -15,9 +15,9 @@ from .tools import (
 )
 
 mcp = FastMCP(
-    name="babybuddy-mcp",
+    name="babubi-mcp",
     instructions=(
-        "You are connected to a Baby Buddy baby tracking server. "
+        "You are connected to a Babubi baby tracking server. "
         "Use these tools to log and retrieve feeding, sleep, diaper change, "
         "pumping, tummy time, medication, and measurement events for a child. "
         "All times should be in ISO 8601 format (e.g. 2024-01-15T14:30:00). "

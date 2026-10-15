@@ -1,14 +1,14 @@
 import pytest
 import respx
 
-from babybuddy_mcp import client as client_module
-from babybuddy_mcp.config import settings
+from babubi_mcp import client as client_module
+from babubi_mcp.config import settings
 
 
 @pytest.fixture(autouse=True)
 def mock_settings(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(settings, "babybuddy_url", "http://test-babybuddy")
-    monkeypatch.setattr(settings, "babybuddy_token", "test-token")
+    monkeypatch.setattr(settings, "babubi_url", "http://test-babubi")
+    monkeypatch.setattr(settings, "babubi_token", "test-token")
 
 
 @pytest.fixture(autouse=True)
@@ -19,8 +19,8 @@ def reset_client() -> None:
 
 @pytest.fixture
 def mock_api() -> respx.MockRouter:
-    """Provide a respx router pre-configured for the test babybuddy instance."""
-    with respx.mock(base_url="http://test-babybuddy", assert_all_called=False) as router:
+    """Provide a respx router pre-configured for the test babubi instance."""
+    with respx.mock(base_url="http://test-babubi", assert_all_called=False) as router:
         yield router
 
 

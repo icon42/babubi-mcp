@@ -2,9 +2,9 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp.tools.profile import get_profile
+from babubi_mcp.tools.profile import get_profile
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 PROFILE = {
     "user": {"id": 1, "username": "parent", "email": "parent@example.com"},

@@ -1,7 +1,7 @@
 services:
-  babybuddy-mcp:
+  babubi-mcp:
     build: .
-    container_name: babybuddy-mcp
+    container_name: babubi-mcp
     restart: unless-stopped
     env_file: .env
     ports:

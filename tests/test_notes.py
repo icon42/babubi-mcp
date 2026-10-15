@@ -4,7 +4,7 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp.tools.notes import (
+from babubi_mcp.tools.notes import (
     create_note,
     create_tag,
     delete_note,
@@ -15,7 +15,7 @@ from babybuddy_mcp.tools.notes import (
     update_tag,
 )
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 NOTE = {"id": 1, "child": 1, "note": "First smile!", "time": "2024-01-15T10:00:00Z"}
 TAG = {"slug": "milestone", "name": "milestone", "color": "#ff5733"}

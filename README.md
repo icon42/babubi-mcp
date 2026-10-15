@@ -1,20 +1,20 @@
-# babybuddy-mcp
+# babubi-mcp
 
-An [MCP](https://modelcontextprotocol.io/) server for the [Baby Buddy](https://github.com/babybuddy/babybuddy/) baby tracking application. Connect AI assistants to your babybuddy instance to log and query feedings, sleep, diaper changes, and more.
+An [MCP](https://modelcontextprotocol.io/) server for the [Babubi](https://github.com/icon42/babubi/) baby tracking application. Connect AI assistants to your babubi instance to log and query feedings, sleep, diaper changes, and more.
 
-Built with [FastMCP](https://github.com/prefecthq/fastmcp) and designed to run alongside babybuddy in Docker.
+Built with [FastMCP](https://github.com/prefecthq/fastmcp) and designed to run alongside babubi in Docker.
 
 ## Requirements
 
 - [mise](https://mise.jdx.dev/) (for local development)
 - Python 3.13+
-- A running babybuddy instance with API access
+- A running babubi instance with API access
 
 ## Setup
 
 ### 1. Get your API token
 
-1. Log in to your babybuddy web UI
+1. Log in to your babubi web UI
 2. Click your username in the top-right corner → **Settings**
 3. Copy the **API Key** shown on the page
 
@@ -27,8 +27,8 @@ cp .env.example .env
 Edit `.env`:
 
 ```bash
-BABYBUDDY_URL=http://localhost:8000   # URL of your babybuddy instance
-BABYBUDDY_TOKEN=your-api-key-here     # Token from step 1
+BABUBI_URL=http://localhost:8000   # URL of your babubi instance
+BABUBI_TOKEN=your-api-key-here     # Token from step 1
 MCP_TRANSPORT=http                    # "http" for Docker, "stdio" for Claude Desktop
 MCP_PORT=8080
 ```
@@ -41,7 +41,7 @@ docker compose up --build
 
 The MCP server will be available at `http://localhost:8080/mcp/`.
 
-If babybuddy is running on the same Docker network, set `BABYBUDDY_URL` to use its service name (e.g. `http://babybuddy:8000`).
+If babubi is running on the same Docker network, set `BABUBI_URL` to use its service name (e.g. `http://babubi:8000`).
 
 ## Connecting to Claude Desktop (stdio mode)
 
@@ -50,13 +50,13 @@ Set `MCP_TRANSPORT=stdio` in `.env`, then add to your Claude Desktop `claude_des
 ```json
 {
   "mcpServers": {
-    "babybuddy": {
+    "babubi": {
       "command": "mise",
-      "args": ["x", "python@3.13", "--", "uv", "run", "python", "-m", "babybuddy_mcp"],
-      "cwd": "/path/to/babybuddy-mcp",
+      "args": ["x", "python@3.13", "--", "uv", "run", "python", "-m", "babubi_mcp"],
+      "cwd": "/path/to/babubi-mcp",
       "env": {
-        "BABYBUDDY_URL": "http://localhost:8000",
-        "BABYBUDDY_TOKEN": "your-api-key-here",
+        "BABUBI_URL": "http://localhost:8000",
+        "BABUBI_TOKEN": "your-api-key-here",
         "MCP_TRANSPORT": "stdio"
       }
     }
@@ -71,7 +71,7 @@ Add to your MCP client config:
 ```json
 {
   "mcpServers": {
-    "babybuddy": {
+    "babubi": {
       "url": "http://localhost:8080/mcp/"
     }
   }
@@ -96,18 +96,18 @@ Tools are organized by domain with namespaced names (e.g. `feedings_list_feeding
 | **notes** | `list_notes`, `create_note`, `update_note`, `delete_note`, `list_tags`, `create_tag`, `update_tag`, `delete_tag` |
 | **profile** | `get_profile` |
 
-Most `list_*` tools accept `tags` and `ordering` filters where the Baby Buddy API supports them; `create_note`/`update_note` accept an `image_path` to attach an image. Children and tags are addressed by their **slug** (from `list_children` / `list_tags`), not numeric ID.
+Most `list_*` tools accept `tags` and `ordering` filters where the Babubi API supports them; `create_note`/`update_note` accept an `image_path` to attach an image. Children and tags are addressed by their **slug** (from `list_children` / `list_tags`), not numeric ID.
 
 ## Environment Variables
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `BABYBUDDY_URL` | Yes | — | URL of your babybuddy instance |
-| `BABYBUDDY_TOKEN` | Yes | — | API token from babybuddy Settings |
+| `BABUBI_URL` | Yes | — | URL of your babubi instance |
+| `BABUBI_TOKEN` | Yes | — | API token from babubi Settings |
 | `MCP_TRANSPORT` | No | `http` | Transport: `http` or `stdio` |
 | `MCP_HOST` | No | `0.0.0.0` | Host to bind (HTTP transport only) |
 | `MCP_PORT` | No | `8080` | Port to listen on (HTTP transport only) |
-| `REQUEST_TIMEOUT` | No | `30.0` | Timeout in seconds for babybuddy API calls |
+| `REQUEST_TIMEOUT` | No | `30.0` | Timeout in seconds for babubi API calls |
 | `DEFAULT_PAGE_SIZE` | No | `100` | Max records returned per list call |
 
 ## Development

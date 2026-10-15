@@ -57,7 +57,7 @@ wheels = [
 ]
 
 [[package]]
-name = "babybuddy-mcp"
+name = "babubi-mcp"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

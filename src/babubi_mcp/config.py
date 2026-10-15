@@ -10,8 +10,8 @@ class Settings(BaseSettings):
     )
 
     # Required
-    babybuddy_url: str = ""
-    babybuddy_token: str = ""
+    babubi_url: str = ""
+    babubi_token: str = ""
 
     # MCP server transport
     mcp_transport: str = "http"

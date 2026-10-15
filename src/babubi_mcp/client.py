@@ -26,8 +26,8 @@ def get_client() -> httpx.AsyncClient:
     global _client
     if _client is None:
         _client = httpx.AsyncClient(
-            base_url=settings.babybuddy_url.rstrip("/"),
-            headers={"Authorization": f"Token {settings.babybuddy_token}"},
+            base_url=settings.babubi_url.rstrip("/"),
+            headers={"Authorization": f"Token {settings.babubi_token}"},
             timeout=settings.request_timeout,
         )
     return _client

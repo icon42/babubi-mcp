@@ -2,8 +2,8 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp import client as client_module
-from babybuddy_mcp.client import (
+from babubi_mcp import client as client_module
+from babubi_mcp.client import (
     api_delete,
     api_get,
     api_get_raw,
@@ -15,7 +15,7 @@ from babybuddy_mcp.client import (
     api_post_multipart,
 )
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 
 @pytest.fixture

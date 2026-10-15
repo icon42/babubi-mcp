@@ -2,9 +2,9 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp.tools.children import create_child, get_child, list_children, update_child
+from babubi_mcp.tools.children import create_child, get_child, list_children, update_child
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 CHILD = {
     "id": 1,

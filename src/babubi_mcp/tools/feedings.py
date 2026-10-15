@@ -59,7 +59,7 @@ async def create_feeding(
     end: Annotated[str, "End time in ISO 8601 format"],
     feeding_type: Annotated[str, f"Type of feeding: {_TYPES}"],
     method: Annotated[str, f"Feeding method: {_METHODS}"],
-    amount: Annotated[float | None, "Amount fed (units depend on babybuddy settings)"] = None,
+    amount: Annotated[float | None, "Amount fed (units depend on babubi settings)"] = None,
     notes: Annotated[str | None, "Optional notes"] = None,
     timer_id: Annotated[
         int | None,

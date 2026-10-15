@@ -2,14 +2,14 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp.tools.tummy_times import (
+from babubi_mcp.tools.tummy_times import (
     create_tummy_time,
     delete_tummy_time,
     list_tummy_times,
     update_tummy_time,
 )
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 TUMMY = {"id": 1, "child": 1, "start": "2024-01-15T10:00:00Z", "end": "2024-01-15T10:15:00Z"}
 

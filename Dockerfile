@@ -19,4 +19,4 @@ ENV PYTHONPATH="/app/src"
 
 EXPOSE 8080
 
-CMD ["python", "-m", "babybuddy_mcp"]
+CMD ["python", "-m", "babubi_mcp"]

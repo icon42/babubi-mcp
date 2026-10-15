@@ -2,9 +2,9 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp.tools.sleep import create_sleep, delete_sleep, list_sleep, update_sleep
+from babubi_mcp.tools.sleep import create_sleep, delete_sleep, list_sleep, update_sleep
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 SLEEP = {
     "id": 1,

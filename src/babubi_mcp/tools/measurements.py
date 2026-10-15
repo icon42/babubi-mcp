@@ -287,7 +287,7 @@ async def list_temperature(
 async def create_temperature(
     child_id: Annotated[int, "ID of the child. Use list_children to get IDs."],
     time: Annotated[str, "Time of reading in ISO 8601 format (e.g. 2024-01-15T14:30:00)"],
-    temperature: Annotated[float, "Temperature value (units depend on babybuddy settings)"],
+    temperature: Annotated[float, "Temperature value (units depend on babubi settings)"],
     notes: Annotated[str | None, "Optional notes"] = None,
 ) -> dict[str, object]:
     """Record a temperature reading."""

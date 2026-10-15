@@ -4,11 +4,11 @@ from fastmcp import FastMCP
 
 from ..client import QueryParams, api_delete, api_list, api_patch, api_post
 
-mcp = FastMCP("pumping")
+mcp = FastMCP("sleep")
 
 
 @mcp.tool
-async def list_pumping(
+async def list_sleep(
     child_id: Annotated[int | None, "Filter by child ID. Use list_children to get IDs."] = None,
     start: Annotated[str | None, "Filter by exact start time, ISO 8601"] = None,
     start_min: Annotated[str | None, "Earliest start time, ISO 8601"] = None,
@@ -16,10 +16,11 @@ async def list_pumping(
     end: Annotated[str | None, "Filter by exact end time, ISO 8601"] = None,
     end_min: Annotated[str | None, "Earliest end time, ISO 8601"] = None,
     end_max: Annotated[str | None, "Latest end time, ISO 8601"] = None,
+    tags: Annotated[list[str] | None, "Filter by tag names (records having all listed tags)"] = None,
     ordering: Annotated[str | None, "Order by field, e.g. 'start' or '-start' (descending)"] = None,
     limit: Annotated[int, "Maximum number of records to return"] = 50,
 ) -> list[dict[str, object]]:
-    """List pumping session records with optional filters."""
+    """List sleep records with optional filters."""
     params: QueryParams = {"limit": limit}
     if child_id is not None:
         params["child"] = child_id
@@ -35,63 +36,68 @@ async def list_pumping(
         params["end_min"] = end_min
     if end_max is not None:
         params["end_max"] = end_max
+    if tags:
+        params["tags"] = ",".join(tags)
     if ordering is not None:
         params["ordering"] = ordering
-    return await api_list("pumping", params)
+    return await api_list("sleep", params)
 
 
 @mcp.tool
-async def create_pumping(
+async def create_sleep(
     child_id: Annotated[int, "ID of the child. Use list_children to get IDs."],
-    start: Annotated[str, "Start time in ISO 8601 format (e.g. 2024-01-15T08:00:00)"],
+    start: Annotated[str, "Start time in ISO 8601 format (e.g. 2024-01-15T21:00:00)"],
     end: Annotated[str, "End time in ISO 8601 format"],
-    amount: Annotated[float | None, "Amount pumped (units depend on babybuddy settings)"] = None,
+    nap: Annotated[
+        bool | None,
+        "True if this was a nap, False if night sleep, None to let babubi auto-determine",
+    ] = None,
     notes: Annotated[str | None, "Optional notes"] = None,
     timer_id: Annotated[
         int | None,
         "Use a running timer instead of explicit start/end times. Use list_timers to find active timers.",
     ] = None,
 ) -> dict[str, object]:
-    """Record a pumping session."""
+    """Record a sleep session."""
     data: dict[str, object] = {
         "child": child_id,
         "start": start,
         "end": end,
     }
-    if amount is not None:
-        data["amount"] = amount
+    if nap is not None:
+        data["nap"] = nap
     if notes is not None:
         data["notes"] = notes
     if timer_id is not None:
         data["timer"] = timer_id
-    return await api_post("pumping", data)
+    return await api_post("sleep", data)
 
 
 @mcp.tool
-async def update_pumping(
-    pumping_id: Annotated[int, "ID of the pumping record to update"],
+async def update_sleep(
+    sleep_id: Annotated[int, "ID of the sleep record to update"],
     start: Annotated[str | None, "New start time in ISO 8601 format"] = None,
     end: Annotated[str | None, "New end time in ISO 8601 format"] = None,
-    amount: Annotated[float | None, "New amount"] = None,
+    nap: Annotated[bool | None, "True if nap, False if night sleep"] = None,
     notes: Annotated[str | None, "New notes"] = None,
 ) -> dict[str, object]:
-    """Update an existing pumping record. Only provided fields are changed."""
+    """Update an existing sleep record. Only provided fields are changed."""
     data: dict[str, object] = {}
     if start is not None:
         data["start"] = start
     if end is not None:
         data["end"] = end
-    if amount is not None:
-        data["amount"] = amount
+    if nap is not None:
+        data["nap"] = nap
     if notes is not None:
         data["notes"] = notes
-    return await api_patch("pumping", pumping_id, data)
+    return await api_patch("sleep", sleep_id, data)
 
 
 @mcp.tool
-async def delete_pumping(
-    pumping_id: Annotated[int, "ID of the pumping record to permanently delete"],
+async def delete_sleep(
+    sleep_id: Annotated[int, "ID of the sleep record to permanently delete"],
 ) -> str:
-    """Delete a pumping record. This action is permanent."""
-    await api_delete("pumping", pumping_id)
-    return f"Pumping record {pumping_id} deleted successfully."
+    """Delete a sleep record. This action is permanent."""
+    await api_delete("sleep", sleep_id)
+    return f"Sleep record {sleep_id} deleted successfully."

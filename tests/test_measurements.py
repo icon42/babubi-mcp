@@ -2,7 +2,7 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp.tools.measurements import (
+from babubi_mcp.tools.measurements import (
     create_bmi,
     create_head_circumference,
     create_height,
@@ -17,7 +17,7 @@ from babybuddy_mcp.tools.measurements import (
     update_weight,
 )
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 
 @pytest.fixture

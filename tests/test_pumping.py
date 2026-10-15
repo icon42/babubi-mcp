@@ -2,14 +2,14 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp.tools.pumping import (
+from babubi_mcp.tools.pumping import (
     create_pumping,
     delete_pumping,
     list_pumping,
     update_pumping,
 )
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 PUMPING = {"id": 1, "child": 1, "start": "2024-01-15T08:00:00Z", "end": "2024-01-15T08:20:00Z", "amount": 3.5}
 

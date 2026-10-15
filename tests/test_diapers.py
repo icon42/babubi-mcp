@@ -2,14 +2,14 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp.tools.diapers import (
+from babubi_mcp.tools.diapers import (
     create_diaper_change,
     delete_diaper_change,
     list_diaper_changes,
     update_diaper_change,
 )
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 CHANGE = {"id": 1, "child": 1, "time": "2024-01-15T10:00:00Z", "wet": True, "solid": False}
 

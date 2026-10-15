@@ -2,7 +2,7 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp.tools.timers import (
+from babubi_mcp.tools.timers import (
     create_timer,
     delete_timer,
     get_timer,
@@ -11,7 +11,7 @@ from babybuddy_mcp.tools.timers import (
     update_timer,
 )
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 TIMER = {"id": 1, "name": "Feeding", "start": "2024-01-15T10:00:00Z", "child": 1}
 

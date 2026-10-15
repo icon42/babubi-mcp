@@ -1,7 +1,7 @@
 [project]
-name = "babybuddy-mcp"
+name = "babubi-mcp"
 version = "0.1.0"
-description = "MCP server for the babybuddy baby tracking application"
+description = "MCP server for the babubi baby tracking application"
 requires-python = ">=3.13"
 dependencies = [
     "fastmcp>=2.0",
@@ -16,14 +16,14 @@ dependencies = [
 ]
 
 [project.scripts]
-babybuddy-mcp = "babybuddy_mcp.__main__:main"
+babubi-mcp = "babubi_mcp.__main__:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/babybuddy_mcp"]
+packages = ["src/babubi_mcp"]
 
 [tool.ruff]
 line-length = 120

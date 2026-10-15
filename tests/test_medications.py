@@ -2,14 +2,14 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp.tools.medications import (
+from babubi_mcp.tools.medications import (
     create_medication,
     delete_medication,
     list_medications,
     update_medication,
 )
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 MED = {
     "id": 1,

@@ -2,14 +2,14 @@ import httpx
 import pytest
 import respx
 
-from babybuddy_mcp.tools.feedings import (
+from babubi_mcp.tools.feedings import (
     create_feeding,
     delete_feeding,
     list_feedings,
     update_feeding,
 )
 
-BASE = "http://test-babybuddy"
+BASE = "http://test-babubi"
 
 FEEDING = {
     "id": 1,
