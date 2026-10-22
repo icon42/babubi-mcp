@@ -81,3 +81,20 @@ async def test_delete_timer(mock_api: respx.MockRouter) -> None:
     mock_api.delete("/api/timers/1/").mock(return_value=httpx.Response(204))
     result = await delete_timer(1)
     assert "1" in result
+
+
+async def test_create_timer_with_kind(mock_api: respx.MockRouter) -> None:
+    route = mock_api.post("/api/timers/").mock(
+        return_value=httpx.Response(201, json={**TIMER, "kind": "sleep"})
+    )
+    result = await create_timer(kind="sleep", child_id=1)
+    assert b'"kind":"sleep"' in route.calls[0].request.content.replace(b" ", b"")
+    assert result["kind"] == "sleep"
+
+
+async def test_update_timer_kind(mock_api: respx.MockRouter) -> None:
+    route = mock_api.patch("/api/timers/1/").mock(
+        return_value=httpx.Response(200, json={**TIMER, "kind": "feeding"})
+    )
+    await update_timer(1, kind="feeding")
+    assert b'"kind":"feeding"' in route.calls[0].request.content.replace(b" ", b"")

@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastmcp import FastMCP
 
@@ -13,6 +13,9 @@ from ..client import (
 )
 
 mcp = FastMCP("timers")
+
+# The activity a timer times; "" leaves it unset.
+Kind = Literal["feeding", "pumping", "sleep", "tummytime", ""]
 
 
 @mcp.tool
@@ -36,17 +39,22 @@ async def list_timers(
 async def get_timer(
     timer_id: Annotated[int, "ID of the timer to retrieve"],
 ) -> dict[str, object]:
-    """Get a specific timer to see its name, start time, and elapsed duration."""
+    """Get a specific timer to see its name, kind, start time, and elapsed duration."""
     return await api_get(f"timers/{timer_id}")
 
 
 @mcp.tool
 async def create_timer(
-    name: Annotated[str | None, "Optional name for the timer (e.g. 'Feeding', 'Nap')"] = None,
+    kind: Annotated[Kind | None, "What the timer times (optional, can be changed later)"] = None,
+    name: Annotated[
+        str | None, "Optional name; without one the timer is named by its kind and start time"
+    ] = None,
     child_id: Annotated[int | None, "ID of the child to associate with this timer"] = None,
 ) -> dict[str, object]:
     """Start a new timer. Use the returned ID when finishing a feeding, sleep, pumping, or tummy time session."""
     data: dict[str, object] = {}
+    if kind is not None:
+        data["kind"] = kind
     if name is not None:
         data["name"] = name
     if child_id is not None:
@@ -59,11 +67,14 @@ async def update_timer(
     timer_id: Annotated[int, "ID of the timer to update"],
     name: Annotated[str | None, "New name for the timer"] = None,
     child_id: Annotated[int | None, "New child ID to associate with this timer"] = None,
+    kind: Annotated[Kind | None, "What the timer times, or '' to unset it"] = None,
 ) -> dict[str, object]:
-    """Update a timer's name or child association."""
+    """Update a timer's name, kind or child association."""
     data: dict[str, object] = {}
     if name is not None:
         data["name"] = name
+    if kind is not None:
+        data["kind"] = kind
     if child_id is not None:
         data["child"] = child_id
     return await api_patch("timers", timer_id, data)

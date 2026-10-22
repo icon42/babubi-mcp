@@ -81,3 +81,20 @@ async def test_update_child_no_fields_sends_empty_patch(mock_api: respx.MockRout
     )
     await update_child("alice-smith")
     assert route.called
+
+
+async def test_create_child_with_sex(mock_api: respx.MockRouter) -> None:
+    route = mock_api.post("/api/children/").mock(
+        return_value=httpx.Response(201, json={**CHILD, "sex": "girl"})
+    )
+    result = await create_child("Alice", "Smith", "2024-01-01", sex="girl")
+    assert b'"sex":"girl"' in route.calls[0].request.content.replace(b" ", b"")
+    assert result["sex"] == "girl"
+
+
+async def test_update_child_clears_sex(mock_api: respx.MockRouter) -> None:
+    route = mock_api.patch("/api/children/alice-smith/").mock(
+        return_value=httpx.Response(200, json={**CHILD, "sex": ""})
+    )
+    await update_child("alice-smith", sex="")
+    assert b'"sex":""' in route.calls[0].request.content.replace(b" ", b"")

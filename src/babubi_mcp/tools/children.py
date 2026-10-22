@@ -1,10 +1,13 @@
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastmcp import FastMCP
 
 from ..client import QueryParams, api_get, api_list, api_patch, api_post
 
 mcp = FastMCP("children")
+
+# The sex picks the WHO growth standards in Babubi; "" leaves it unspecified.
+Sex = Literal["boy", "girl", ""]
 
 
 @mcp.tool
@@ -43,6 +46,7 @@ async def create_child(
     last_name: Annotated[str, "Child's last name"],
     birth_date: Annotated[str, "Date of birth in YYYY-MM-DD format (e.g. 2024-01-15)"],
     birth_time: Annotated[str | None, "Time of birth in HH:MM:SS format (optional)"] = None,
+    sex: Annotated[Sex | None, "'boy' or 'girl', for the WHO growth charts (optional)"] = None,
 ) -> dict[str, object]:
     """Add a new child profile."""
     data: dict[str, object] = {
@@ -52,6 +56,8 @@ async def create_child(
     }
     if birth_time is not None:
         data["birth_time"] = birth_time
+    if sex is not None:
+        data["sex"] = sex
     return await api_post("children", data)
 
 
@@ -62,6 +68,7 @@ async def update_child(
     last_name: Annotated[str | None, "New last name"] = None,
     birth_date: Annotated[str | None, "New birth date in YYYY-MM-DD format"] = None,
     birth_time: Annotated[str | None, "New birth time in HH:MM:SS format"] = None,
+    sex: Annotated[Sex | None, "'boy', 'girl', or '' to leave it unspecified"] = None,
 ) -> dict[str, object]:
     """Update a child's profile by slug. Only provided fields are changed."""
     data: dict[str, object] = {}
@@ -73,4 +80,6 @@ async def update_child(
         data["birth_date"] = birth_date
     if birth_time is not None:
         data["birth_time"] = birth_time
+    if sex is not None:
+        data["sex"] = sex
     return await api_patch("children", slug, data)
