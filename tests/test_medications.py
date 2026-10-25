@@ -48,6 +48,9 @@ async def test_list_medications_with_filters(mock_api: respx.MockRouter) -> None
     assert params["name"] == "Tylenol"
     assert params["dosage_unit"] == "ml"
     assert params["tags"] == "fever"
+    assert "name__icontains" not in params
+    await list_medications(name_contains="tyl")
+    assert route.calls[1].request.url.params["name__icontains"] == "tyl"
 
 
 async def test_create_medication(mock_api: respx.MockRouter) -> None:

@@ -22,6 +22,9 @@ Kind = Literal["feeding", "pumping", "sleep", "tummytime", ""]
 async def list_timers(
     child_id: Annotated[int | None, "Filter by child ID. Use list_children to get IDs."] = None,
     name: Annotated[str | None, "Filter by exact timer name"] = None,
+    name_contains: Annotated[
+        str | None, "Filter by a part of the timer name, in any case (Babubi 2.1.3 or later)"
+    ] = None,
     ordering: Annotated[str | None, "Order by field, e.g. 'start' or '-start' (descending)"] = None,
 ) -> list[dict[str, object]]:
     """List active and recent timers. Use timer IDs when creating feedings, sleep, pumping, or tummy time records."""
@@ -30,6 +33,8 @@ async def list_timers(
         params["child"] = child_id
     if name is not None:
         params["name"] = name
+    if name_contains is not None:
+        params["name__icontains"] = name_contains
     if ordering is not None:
         params["ordering"] = ordering
     return await api_list("timers", params)

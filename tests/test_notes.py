@@ -115,6 +115,18 @@ async def test_list_tags(mock_api: respx.MockRouter) -> None:
     assert result[0]["name"] == "milestone"
 
 
+async def test_list_tags_name_filter(mock_api: respx.MockRouter) -> None:
+    route = mock_api.get("/api/tags/").mock(
+        return_value=httpx.Response(
+            200, json={"count": 1, "next": None, "previous": None, "results": [TAG]}
+        )
+    )
+    await list_tags(name="milestone")
+    assert route.calls[0].request.url.params["name"] == "milestone"
+    await list_tags(name_contains="mile")
+    assert route.calls[1].request.url.params["name__icontains"] == "mile"
+
+
 async def test_create_tag(mock_api: respx.MockRouter) -> None:
     mock_api.post("/api/tags/").mock(return_value=httpx.Response(201, json=TAG))
     result = await create_tag(name="milestone", color="#ff5733")

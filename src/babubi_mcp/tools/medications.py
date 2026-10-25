@@ -13,6 +13,9 @@ _DOSAGE_UNITS = "mg, ml, tablets, drops"
 async def list_medications(
     child_id: Annotated[int | None, "Filter by child ID. Use list_children to get IDs."] = None,
     name: Annotated[str | None, "Filter by exact medication name"] = None,
+    name_contains: Annotated[
+        str | None, "Filter by a part of the medication name, in any case (Babubi 2.1.3 or later)"
+    ] = None,
     dosage_unit: Annotated[str | None, f"Filter by dosage unit: {_DOSAGE_UNITS}"] = None,
     date: Annotated[str | None, "Filter by exact date, YYYY-MM-DD"] = None,
     date_min: Annotated[str | None, "Start of date range, YYYY-MM-DD"] = None,
@@ -27,6 +30,8 @@ async def list_medications(
         params["child"] = child_id
     if name is not None:
         params["name"] = name
+    if name_contains is not None:
+        params["name__icontains"] = name_contains
     if dosage_unit is not None:
         params["dosage_unit"] = dosage_unit
     if date is not None:

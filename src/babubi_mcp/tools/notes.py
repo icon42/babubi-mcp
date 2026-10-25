@@ -109,9 +109,19 @@ async def delete_note(
 
 
 @mcp.tool
-async def list_tags() -> list[dict[str, object]]:
-    """List all available tags that can be applied to notes."""
-    return await api_list("tags")
+async def list_tags(
+    name: Annotated[str | None, "Filter by exact tag name"] = None,
+    name_contains: Annotated[
+        str | None, "Filter by a part of the tag name, in any case (Babubi 2.1.3 or later)"
+    ] = None,
+) -> list[dict[str, object]]:
+    """List the tags that can be applied to notes and other records, all of them or by name."""
+    params: QueryParams = {}
+    if name is not None:
+        params["name"] = name
+    if name_contains is not None:
+        params["name__icontains"] = name_contains
+    return await api_list("tags", params)
 
 
 @mcp.tool

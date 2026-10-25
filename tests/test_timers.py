@@ -66,6 +66,8 @@ async def test_list_timers_name_filter(mock_api: respx.MockRouter) -> None:
     )
     await list_timers(name="Feeding")
     assert route.calls[0].request.url.params["name"] == "Feeding"
+    await list_timers(name_contains="feed")
+    assert route.calls[1].request.url.params["name__icontains"] == "feed"
 
 
 async def test_restart_timer(mock_api: respx.MockRouter) -> None:
